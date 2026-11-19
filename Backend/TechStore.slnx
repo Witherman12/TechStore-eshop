@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="TechStore.Api/TechStore.Api.csproj" />
+  <Project Path="TechStore.IntegrationTests/TechStore.IntegrationTests.csproj" />
+  <Project Path="TechStore.UnitTests/TechStore.UnitTests.csproj" />
+</Solution>
