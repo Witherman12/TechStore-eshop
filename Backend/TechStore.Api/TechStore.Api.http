@@ -1,6 +1,47 @@
-@TechStore.Api_HostAddress = http://localhost:5251
+@TechStore.Api_HostAddress = https://localhost:7207
+@token = JWT_TOKEN_HERE
 
-GET {{TechStore.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### 1. Register (Αναμενόμενο: 201 Created + JWT token)
+POST {{TechStore.Api_HostAddress}}/api/auth/register
+Content-Type: application/json
 
-###
+{
+  "username": "Dev_testing",
+  "email": "Dev@techstore.gr",
+  "password": "Password123!"
+}
+
+### 2. Duplicate Register (Αναμενόμενο: 409 Conflict)
+POST {{TechStore.Api_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "Dev_testing",
+  "email": "Dev@techstore.gr",
+  "password": "Password123!"
+}
+
+### 3. Login με σωστά στοιχεία (Αναμενόμενο: 200 OK + JWT token)
+POST {{TechStore.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "Dev_testing",
+  "password": "Password123!"
+}
+
+### 4. Login με λάθος κωδικό (Αναμενόμενο: 401 Unauthorized)
+POST {{TechStore.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "Dev_testing",
+  "password": "WrongPassword!"
+}
+
+### 5. Προστατευμένο endpoint ΧΩΡΙΣ token (Αναμενόμενο: 401 Unauthorized)
+GET {{TechStore.Api_HostAddress}}/api/auth/me
+
+### 6. Προστατευμένο endpoint ΜΕ token (Αναμενόμενο: 200 OK με στοιχεία χρήστη)
+GET {{TechStore.Api_HostAddress}}/api/auth/me
+Authorization: Bearer {{token}}
